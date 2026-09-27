@@ -1,0 +1,1516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>The Age Of Abundance</title>
+<link rel="icon" type="image/png" href="assets/seal.png" />
+
+<meta name="description" content="Begin your manifestation journey" />
+<meta property="og:title" content="The Age Of Abundance" />
+<meta property="og:description" content="Begin your manifestation journey" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+
+<!-- Sem scripts de terceiros (UTMify/pixel removidos em 25/09/2026 a pedido).
+     Tudo o que a pagina usa esta nesta pasta ou em assets/. -->
+
+<style>
+  /* ---------- fontes self-hosted (nada de Google Fonts) ---------- */
+  @font-face {
+    font-family: 'Lora'; font-style: normal; font-weight: 400 700; font-display: swap;
+    src: url('assets/fonts/lora.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Lora'; font-style: italic; font-weight: 400 700; font-display: swap;
+    src: url('assets/fonts/lora-italic.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Open Sans'; font-style: normal; font-weight: 400 700; font-display: swap;
+    src: url('assets/fonts/opensans.woff2') format('woff2');
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+
+  html, body {
+    width: 100%; height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* o fundo acompanha a etapa: mesa a luz de vela -> papel do chat */
+  body { background: #2a1d14; transition: background 0.6s ease; overflow: hidden; }
+  body.mode-chat { background: #efeae2; overflow: hidden; }
+
+  /* =====================================================================
+     ETAPA 1 - ENTRADA: layout da carta (../index.html), copy da entrada
+     do quiz original (abundance-quiz)
+     ===================================================================== */
+  #letter { font-family: 'Lora', Georgia, 'Times New Roman', serif; color: #f6efe4; }
+
+  #letter .desk {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 42%, rgba(226,178,106,0.28), transparent 70%),
+      linear-gradient(175deg, #3d2a1c 0%, #2f2016 45%, #1f150e 100%);
+    z-index: 0;
+  }
+
+  /* duas camadas de luz em velocidades diferentes: o flicker nunca cai
+     num loop obvio */
+  #letter .candle {
+    position: fixed; left: 50%; top: 44%;
+    width: min(760px, 150vw); height: min(760px, 150vw);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,196,120,0.30) 0%, rgba(190,132,66,0.14) 38%, transparent 68%);
+    animation: breathe 6.5s ease-in-out infinite;
+    pointer-events: none; z-index: 1;
+  }
+  #letter .candle.inner {
+    width: min(360px, 80vw); height: min(360px, 80vw);
+    background: radial-gradient(circle, rgba(255,222,164,0.34) 0%, transparent 62%);
+    animation: breathe 4.1s ease-in-out infinite reverse;
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: 0.82; transform: translate(-50%, -50%) scale(1); }
+    50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
+  }
+
+  /* poeira: deriva de lado e afunda, como po num feixe de luz */
+  #letter .mote {
+    position: fixed;
+    background: rgba(244,214,166,0.75);
+    border-radius: 50%;
+    filter: blur(0.4px);
+    pointer-events: none; z-index: 2;
+    animation-name: sink;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+  }
+  @keyframes sink {
+    0%   { opacity: 0; transform: translate(0, -8vh); }
+    12%  { opacity: 0.9; }
+    88%  { opacity: 0.5; }
+    100% { opacity: 0; transform: translate(9vw, 104vh); }
+  }
+
+  #letter .stage {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: clamp(14px, 3.2vh, 26px);
+    padding: 5vh 22px;
+    z-index: 3;
+    transform-origin: 50% 46%;
+    transition: transform 1.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease 0.85s;
+  }
+  #letter .stage.parting { transform: scale(3.4); opacity: 0; }
+
+  #letter .envelope { width: min(300px, 62vw); filter: drop-shadow(0 18px 34px rgba(0,0,0,0.5)); }
+  #letter .seal-group { transform-origin: 150px 128px; animation: warm 5.2s ease-in-out infinite; }
+  @keyframes warm { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+
+  #letter .eyebrow {
+    font-size: clamp(15px, 4.1vw, 19px);
+    font-style: italic; letter-spacing: 0.012em;
+    color: #e2b26a; text-align: center;
+  }
+  #letter .headline {
+    font-size: clamp(25px, 7vw, 38px);
+    font-weight: 600; line-height: 1.22;
+    text-align: center; max-width: 15ch;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.45);
+  }
+  #letter .subline {
+    font-size: clamp(14.5px, 3.9vw, 17px);
+    line-height: 1.5; text-align: center; max-width: 30ch;
+    color: rgba(246,239,228,0.82);
+  }
+
+  #letter .ask {
+    width: min(340px, 88vw);
+    display: flex; flex-direction: column; align-items: stretch; gap: 11px;
+  }
+  #letter .ask label {
+    font-size: clamp(14.5px, 3.9vw, 17px);
+    text-align: center; color: #f6efe4;
+  }
+  #letter .ask input {
+    width: 100%; padding: 14px 16px;
+    font-family: inherit;
+    font-size: 17px;                 /* 16px+ evita o zoom do iOS no focus */
+    text-align: center; color: #2a1d14;
+    background: #f6efe4;
+    border: 1px solid rgba(226,178,106,0.55);
+    border-radius: 3px; outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  #letter .ask input::placeholder { color: rgba(42,29,20,0.42); }
+  #letter .ask input:focus { border-color: #e2b26a; box-shadow: 0 0 0 3px rgba(226,178,106,0.2); }
+  #letter .ask input.nope { animation: nope 0.45s ease; border-color: #d9826a; }
+  @keyframes nope {
+    0%, 100% { transform: translateX(0); } 20% { transform: translateX(-8px); }
+    40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); }
+  }
+  /* a linha de apoio do quiz, no tom da prova social da carta */
+  #letter .hint {
+    font-size: clamp(12.5px, 3.3vw, 14px);
+    text-align: center; color: #c9a879; line-height: 1.45;
+  }
+
+  #letter .ask button {
+    width: 100%; padding: 15px 18px;
+    font-family: inherit;
+    font-size: clamp(15px, 4.1vw, 17px);
+    font-weight: 600; letter-spacing: 0.02em;
+    color: #2a1d14;
+    background: linear-gradient(180deg, #e8c07a 0%, #bb8a45 100%);
+    border: none; border-radius: 3px; cursor: pointer;
+    transition: transform 0.14s ease, filter 0.2s ease;
+  }
+  #letter .ask button:hover  { filter: brightness(1.06); }
+  #letter .ask button:active { transform: translateY(1px); }
+
+  @keyframes spin  { to { transform: rotate(360deg); } }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+  /* =====================================================================
+     ETAPA 2 - O CHAT - identico ao chat da carta (../index.html):
+     fundo bege liso, bolhas do Typebot com o avatar, sem hora
+     ===================================================================== */
+
+  #chat {
+    position: relative; z-index: 2;
+    /* stack exato do Typebot, emojis inclusos */
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                 Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    color: #303235;
+  }
+  #chat .app {
+    position: relative; z-index: 1;
+    height: 100vh; height: 100dvh; display: flex; flex-direction: column;
+    max-width: 680px; margin: 0 auto;
+    background: #efeae2;
+  }
+  #chat .sanctum { display: none; }
+
+  /* os grupos de bolhas ficam empilhados com 8px (gap-2 do Typebot) */
+  #chat .thread {
+    flex: 1; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 20px 20px 24px; scroll-behavior: smooth;
+  }
+
+  #chat .chunk { display: flex; gap: 8px; }
+  #chat .chunk.guest { justify-content: flex-end; }
+
+  /* um avatar por grupo, ancorado no rodape do grupo (desliza com as bolhas) */
+  #chat .avatar-col { position: relative; flex-shrink: 0; width: 40px; }
+  #chat .avatar-slot {
+    position: absolute; left: 0; width: 40px; height: 40px;
+    top: max(0px, calc(var(--top, 40px) - 40px));
+    transition: top 350ms ease-out, opacity 250ms ease-out;
+  }
+  #chat .avatar { display: block; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #d8d0c4; }
+
+  #chat .stack { display: flex; flex-direction: column; gap: 8px; width: 100%; min-width: 0; }
+  #chat .bubble-wrap { display: flex; flex-direction: column; animation: fade-in 0.3s ease-out; }
+  #chat .bubble-line { display: flex; width: 100%; align-items: center; }
+
+  #chat .host-bubble { position: relative; display: flex; align-items: flex-start; max-width: 78%; }
+
+  /* o "digitando" e o proprio fundo da bolha: nasce 64x32 e cresce */
+  #chat .pill {
+    position: absolute; top: 0; left: 0;
+    display: flex; align-items: center; justify-content: center;
+    width: 64px; height: 32px;
+    background: #ffffff; border-radius: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.07);
+    transition: width 0.4s ease-out, height 0.4s ease-out;
+  }
+  #chat .host-bubble.shown .pill { width: 100%; height: 100%; }
+  #chat .content {
+    position: relative; overflow: hidden;
+    margin: 8px 16px; height: 20px; opacity: 0;
+    font-size: 16px; line-height: 1.5;
+    white-space: pre-wrap; word-wrap: break-word;
+    transition: opacity 0.4s ease-in 0.2s;
+  }
+  #chat .host-bubble.shown .content { opacity: 1; height: auto; }
+  #chat .content b { font-weight: 700; }
+
+  /* o chat da carta nao mostra hora nem tiques */
+  #chat .time { display: none; }
+
+  #chat .guest-bubble {
+    max-width: 78%; padding: 8px 16px;
+    background: #d9fdd3; color: #303235; border-radius: 20px;
+    font-size: 16px; line-height: 1.5;
+    white-space: pre-wrap; word-wrap: break-word;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.07);
+    animation: fade-in 0.3s ease-out;
+  }
+
+  /* bolinhas do "digitando": 8px, cor do texto a 50%, sobe 2.5px */
+  #chat .typing { display: flex; gap: 4px; }
+  #chat .typing i {
+    display: block; width: 8px; height: 8px; border-radius: 50%;
+    background: #303235; opacity: 0.5;
+    animation: chatBubbles 1s ease-in-out infinite;
+  }
+  #chat .typing i:nth-child(2) { animation-delay: 0.3s; }
+  #chat .typing i:nth-child(3) { animation-delay: 0.6s; }
+  #chat .host-bubble.shown .typing { display: none; }
+  @keyframes chatBubbles { 0% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } 100% { transform: translateY(0); } }
+
+  /* selo do bloco do quiz: etiqueta discreta no meio da conversa */
+  #chat .badge {
+    align-self: center; margin: 6px 0 2px; padding: 5px 14px; border-radius: 20px;
+    background: #fff; color: #54656f; font-size: 12.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.02em;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.07);
+    animation: fade-in 0.3s ease-out;
+  }
+
+  /* respostas: os botoes verdes do Typebot, alinhados a direita */
+  #chat .dock { padding: 2px 0 calc(8px + env(safe-area-inset-bottom)); }
+  #chat .choices { display: flex; flex-direction: column; gap: 9px; align-items: flex-end; }
+  #chat .choice {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; font-size: 15px; font-weight: 600; text-align: center;
+    padding: 9px 22px; color: #ffffff;
+    background: #075e54; border: none; border-radius: 20px;
+    cursor: pointer; max-width: 100%;
+    min-height: 40px; line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    transition: background 0.15s ease, transform 0.1s ease;
+    animation: fade-in 0.3s ease-out;
+  }
+  #chat .choice:hover  { background: #054942; }
+  #chat .choice:active { transform: translateY(1px); }
+  #chat .choice.picked { background: #054942; }
+  #chat .choice svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+  #chat .composer { display: flex; gap: 8px; align-items: flex-end; }
+  #chat .composer textarea {
+    flex: 1; min-width: 0; font-family: inherit;
+    font-size: 16px;              /* 16px+ evita zoom do iOS no focus */
+    line-height: 1.4; padding: 12px 14px;
+    color: #303235; background: #fff;
+    border: 1px solid #e2ddd4; border-radius: 20px;
+    resize: none; outline: none; max-height: 120px;
+  }
+  #chat .composer textarea::placeholder { color: #99a0a6; }
+  #chat .composer.numeric textarea { font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+  #chat .composer button {
+    flex-shrink: 0; width: 48px; height: 48px;
+    border: none; border-radius: 50%;
+    background: #075e54; color: #fff;
+    font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #chat .hidden { display: none !important; }
+
+  /* ---------- topo no jeito do WhatsApp ----------
+     Barra verde da conversa (foto, nome, online/typing) e, embaixo, o saldo
+     do quiz como "mensagem fixada": ACCOUNT BALANCE, %, barra e a frase de
+     energia. Mesmos valores do quiz: $0 -> 100x o valor digitado -> +$2M. */
+  #chat .wa-top {
+    flex-shrink: 0; position: relative; z-index: 7;
+    display: flex; align-items: center; gap: 10px;
+    padding: calc(8px + env(safe-area-inset-top)) 14px 8px 8px;
+    background: #075e54; color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.18);
+  }
+  #chat .wa-back { width: 24px; height: 24px; flex-shrink: 0; }
+  #chat .wa-ava { position: relative; width: 40px; height: 40px; flex-shrink: 0; }
+  #chat .wa-ava img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: 50% 22%; display: block; }
+  #chat .wa-ava::after {               /* bolinha de online */
+    content: ''; position: absolute; right: -1px; bottom: 0; width: 11px; height: 11px;
+    border-radius: 50%; background: #25d366; border: 2px solid #075e54;
+  }
+  #chat .wa-who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  #chat .wa-name { font-size: 16.5px; font-weight: 600; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #chat .wa-name svg { display: inline-block; width: 15px; height: 15px; margin-left: 3px; vertical-align: -2px; color: #25d366; }
+  #chat .wa-status { font-size: 12.5px; line-height: 1.3; color: rgba(255,255,255,0.82); }
+  #chat .wa-icons { display: flex; gap: 20px; }
+  #chat .wa-icons svg { width: 22px; height: 22px; }
+
+  #chat .wa-pin {
+    flex-shrink: 0; position: relative; z-index: 6;
+    padding: 8px 14px 9px;
+    background: #fff; border-bottom: 1px solid #e3ddd2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    animation: pin-in 0.45s ease-out;
+  }
+  #chat .wa-pin[hidden] { display: none; }
+  @keyframes pin-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  #chat .pin-row { display: flex; align-items: center; gap: 10px; }
+  #chat .pin-ico {
+    width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff4d6; color: #b8860b;
+  }
+  #chat .pin-ico svg { width: 19px; height: 19px; }
+  #chat .pin-main { flex: 1; min-width: 0; }
+  #chat .pin-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #667781; line-height: 1.2; }
+  #chat .pin-value {
+    position: relative; display: inline-block;
+    font-size: 21px; font-weight: 700; line-height: 1.2; color: #0b5e38;
+    font-variant-numeric: tabular-nums;
+  }
+  #chat .pin-value.bump { animation: bump 0.9s ease-out; }
+  @keyframes bump { 0% { transform: scale(1); } 25% { transform: scale(1.08); color: #b8860b; } 100% { transform: scale(1); } }
+  #chat .pin-plus {                    /* "+$150,000.00" que sobe e some */
+    position: absolute; left: 100%; top: 0; margin-left: 8px; white-space: nowrap;
+    padding: 1px 7px; border-radius: 20px; background: #d9fdd3; color: #0b5e38;
+    font-size: 12px; font-weight: 700;
+    animation: plus 2.2s ease-out forwards;
+  }
+  @keyframes plus { 0% { opacity: 0; transform: translateY(6px); } 15% { opacity: 1; transform: none; } 75% { opacity: 1; } 100% { opacity: 0; transform: translateY(-8px); } }
+  #chat .pin-pct { flex-shrink: 0; font-size: 13px; font-weight: 700; color: #075e54; font-variant-numeric: tabular-nums; }
+  #chat .qt-bar { position: relative; height: 6px; margin: 7px 0 5px; border-radius: 999px; background: #e9edef; }
+  #chat .qt-bar b { position: absolute; left: 0; top: 50%; width: 14px; height: 10px; margin-top: -5px; border-radius: 999px; background: #25d366; z-index: 1; }
+  #chat .qt-bar i { position: absolute; left: 14px; top: 0; height: 100%; width: 0; border-radius: 0 999px 999px 0; background: linear-gradient(90deg, #25d366, #1faa59); transition: width 0.9s cubic-bezier(.4,0,.2,1); }
+  #chat .pin-note { font-size: 12.5px; font-style: italic; color: #8a6d1f; line-height: 1.3; }
+
+  /* ---------- mensagens-cartao (desbloqueio, motivacional, final) ---------- */
+  #chat .host-bubble.card { max-width: 100%; }
+  #chat .host-bubble.card .content { transition: opacity 0.3s ease-out; }
+  #chat .host-bubble.card.shown .content { margin: 0; width: min(340px, calc(100vw - 88px)); }
+  #chat .host-bubble.card .content::after { display: none; }
+
+  @keyframes pulseGold { 0%, 100% { color: #d4af37; } 50% { color: #8b7520; } }
+  @keyframes spinSlow  { to { transform: rotate(360deg); } }
+  @keyframes cardPop   { 0% { opacity: 0; transform: scale(0.5); } 60% { opacity: 1; transform: scale(1.15); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes portalEnter { 0% { opacity: 0; filter: blur(6px); transform: scale(0.8); } 100% { opacity: 1; filter: none; transform: scale(1); } }
+  @keyframes slideInRight { 0% { opacity: 0; transform: translateX(100%); } 100% { opacity: 1; transform: none; } }
+  @keyframes bounce { 0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(.8,0,1,1); } 50% { transform: none; animation-timing-function: cubic-bezier(0,0,.2,1); } }
+
+  /* ---------- "Processing your answer..." como bolha dele ---------- */
+  .proc-line { display: flex; align-items: center; gap: 10px; color: #667781; font-size: 14px; font-style: italic; }
+  .proc-line .spin { width: 16px; height: 16px; border: 2px solid #075e54; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+  /* ---------- mensagens com foto (desbloqueio / motivacional) ---------- */
+  .qcard { position: relative; padding: 10px 10px 14px; white-space: normal; color: #303235; }
+  .u-pic { position: relative; width: 100%; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; background: #1c1c1c; }
+  .u-pic .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(12px) brightness(0.4) saturate(0.4); transform: scale(1.2); transition: filter 1.1s ease, transform 1.8s cubic-bezier(.2,.8,.2,1); }
+  .qcard.open .u-pic .ph { filter: none; transform: scale(1); }
+  .u-lock { position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center; color: #F9D423; transition: opacity 0.35s ease, transform 0.45s ease, filter 0.45s ease; }
+  .u-lock span { width: 84px; height: 84px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(11,20,26,0.55); border: 1px solid rgba(249,212,35,0.5); }
+  .u-lock svg { width: 42px; height: 42px; overflow: visible; filter: drop-shadow(0 0 10px rgba(249,212,35,0.6)); }
+  .u-lock .shackle { transition: transform 0.35s cubic-bezier(.3,1.6,.5,1); transform-origin: 16px 11px; }
+  .qcard.shake   .u-lock svg { animation: shake 0.55s ease-in-out 2; }
+  .qcard.unlatch .u-lock .shackle { transform: translateY(-3px) rotate(28deg); }
+  .qcard.open    .u-lock { opacity: 0; transform: scale(1.8); filter: blur(6px); }
+  @keyframes shake { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-9deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(4deg); } }
+  .u-flash { position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0; background: radial-gradient(circle, #fff 0%, rgba(255,240,200,0.85) 35%, transparent 75%); }
+  .qcard.open .u-flash { animation: flash 0.9s ease-out; }
+  @keyframes flash { 0% { opacity: 0; } 15% { opacity: 1; } 100% { opacity: 0; } }
+  .u-spark { position: absolute; left: 50%; top: 50%; z-index: 4; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%; background: #ffd77a; box-shadow: 0 0 8px 2px rgba(255,210,120,0.8); opacity: 0; }
+  .u-spark:nth-child(3n) { background: #fff4d0; width: 5px; height: 5px; }
+  .qcard.open .u-spark { animation: spark 1.2s cubic-bezier(.1,.8,.3,1) forwards; animation-delay: var(--d, 0s); }
+  @keyframes spark { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.4); } }
+
+  .cap { padding: 7px 6px 0; }
+  .u-head { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; color: #a8781c; font-weight: 800; font-size: 14px; letter-spacing: 0.04em; }
+  .u-head svg { width: 16px; height: 16px; }
+  .u-head .star { animation: spinSlow 3s linear infinite; }
+  .u-title { font-size: 17px; font-weight: 700; color: #303235; margin-bottom: 2px; }
+  .u-desc { font-size: 16px; line-height: 1.5; color: #303235; }
+  .u-bal { margin-top: 8px; padding: 8px 10px; border-radius: 7px; background: #f5f6f6; border-left: 4px solid #d4a53c; font-size: 14px; color: #667781; }
+  .u-bal b { color: #a8781c; font-size: 16px; font-variant-numeric: tabular-nums; }
+  .u-head, .u-title, .u-desc, .u-bal { opacity: 0; transform: translateY(6px); transition: opacity 0.45s ease, transform 0.45s ease; }
+  .qcard.told .u-head, .qcard.told .u-title, .qcard.told .u-desc, .qcard.told .u-bal { opacity: 1; transform: none; }
+  .qcard.told .u-title { transition-delay: 0.08s; }
+  .qcard.told .u-desc  { transition-delay: 0.16s; }
+  .qcard.told .u-bal   { transition-delay: 0.24s; }
+
+  /* ---------- "before we continue": texto com citacao no estilo WhatsApp ---------- */
+  .qcard.cont { padding: 10px 16px 14px; }
+  .c-title { font-size: 15px; font-weight: 700; line-height: 1.42; }
+  .c-title svg { display: inline-block; width: 15px; height: 15px; margin-left: 5px; vertical-align: -2px; color: #d4a53c; animation: spin 2s linear infinite; }
+  .c-box { margin: 7px 0; padding: 7px 10px 8px; border-radius: 7px; background: #f5f6f6; border-left: 4px solid #d4a53c; }
+  .c-label { color: #a8781c; font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+  .c-phrase { font-size: 15px; font-style: italic; line-height: 1.45; white-space: pre-line; }
+  .c-note { color: #667781; font-size: 13px; }
+
+  /* ---------- tela final: mensagem longa com a barra e a foto ---------- */
+  .qcard.proc { padding: 12px 16px 16px; }
+  .p-title { font-size: 17px; font-weight: 700; line-height: 1.3; margin-bottom: 4px; }
+  .p-sub { color: #a8781c; font-size: 14px; margin-bottom: 12px; }
+  .p-bar { position: relative; height: 8px; border-radius: 999px; background: #e9edef; margin-bottom: 7px; }
+  .p-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: #e8b90f; }
+  .p-bar b { position: absolute; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #e8b90f; left: -7px; }
+  .p-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .p-meta span { color: #667781; font-size: 13px; }
+  .p-meta b { color: #a8781c; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .p-ach h4 { color: #a8781c; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 7px; }
+  .p-shot { position: relative; width: 100%; aspect-ratio: 1; border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+  .p-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: portalEnter 0.8s cubic-bezier(.16,1,.3,1) forwards; }
+  .p-shot .pcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 12px 12px; background: linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.35) 60%, transparent); display: flex; flex-direction: column; align-items: center; }
+  .p-shot .pcap div { display: flex; align-items: center; gap: 7px; color: #d9a849; font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 2px; }
+  .p-shot .pcap div i { width: 20px; height: 20px; border-radius: 50%; background: #F9D423; display: flex; align-items: center; justify-content: center; color: #000; }
+  .p-shot .pcap div i svg { width: 13px; height: 13px; }
+  .p-shot .pcap h5 { color: #fff; font-size: 17px; font-weight: 700; }
+  .p-quote { font-size: 14.5px; font-style: italic; line-height: 1.45; margin-bottom: 4px; }
+  .p-redirect { color: #667781; font-size: 12.5px; }
+  .qcard .dots { display: flex; gap: 6px; margin-top: 8px; }
+  .qcard .dots i { width: 8px; height: 8px; border-radius: 50%; background: #075e54; animation: bounce 1s infinite; }
+  .qcard .dots i:nth-child(2) { animation-delay: 0.15s; }
+  .qcard .dots i:nth-child(3) { animation-delay: 0.3s; }
+  #chat .qcard .time { bottom: 5px; }
+
+  /* notificacoes "PROCESSING" que deslizam no topo */
+  .notes { font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; position: fixed; top: 8px; left: 12px; right: 12px; z-index: 50; display: flex; flex-direction: column; gap: 8px; max-width: 520px; margin: 0 auto; pointer-events: none; }
+  .note {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 10px;
+    background: linear-gradient(90deg, #b8860b, #d4a017); border: 1px solid rgba(249,212,35,0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    animation: slideInRight 0.5s ease-out;
+  }
+  .note .ok { width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: #F9D423; display: flex; align-items: center; justify-content: center; color: #8B7500; }
+  .note .ok svg { width: 16px; height: 16px; }
+  .note div { flex: 1; min-width: 0; }
+  .note b { display: block; color: #1a1a00; font-size: 12px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .note p { color: #1a1a00; font-size: 12px; line-height: 1.25; }
+  .note .sp { width: 16px; height: 16px; color: #8B7500; flex-shrink: 0; animation: spinSlow 3s linear infinite; }
+
+  /* =====================================================================
+     VEU - cobre as duas trocas (carta -> chat, chat -> VSL)
+     ===================================================================== */
+  .veil {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+    background: #efeae2; opacity: 0; visibility: hidden;
+    transition: opacity 0.45s ease;
+    font-family: 'Lora', Georgia, serif;
+    font-size: clamp(15px, 4vw, 18px); font-style: italic; color: #7c6444;
+  }
+  .veil.up { opacity: 1; visibility: visible; }
+  .veil.to-live { background: #05050c; color: #ecc97f; font-style: normal; font-family: 'Open Sans', sans-serif; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #letter .candle, #letter .seal-group { animation: none; }
+    #letter .mote { display: none; }
+    #letter .stage { transition: opacity 0.4s ease; }
+    #letter .stage.parting { transform: none; }
+  }
+</style>
+</head>
+
+<body class="mode-letter">
+
+<!-- ===================== ETAPA 1: entrada (layout da carta, copy do quiz) ===================== -->
+<section id="letter">
+  <div class="desk"></div>
+  <div class="candle"></div>
+  <div class="candle inner"></div>
+
+  <main class="stage" id="stage">
+    <svg class="envelope" viewBox="0 0 300 200" role="img" aria-label="A sealed letter">
+      <defs>
+        <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#fbf4e6"/>
+          <stop offset="100%" stop-color="#e6d8bf"/>
+        </linearGradient>
+        <linearGradient id="flap" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#f3e9d4"/>
+          <stop offset="100%" stop-color="#d9c8ab"/>
+        </linearGradient>
+        <radialGradient id="wax" cx="38%" cy="34%">
+          <stop offset="0%"   stop-color="#b8453c"/>
+          <stop offset="70%"  stop-color="#8c2f2a"/>
+          <stop offset="100%" stop-color="#6b211d"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="18" y="34" width="264" height="150" rx="4" fill="url(#paper)" stroke="#c2ab86" stroke-width="1.5"/>
+      <path d="M 18 38 L 150 128 L 282 38 L 282 34 L 18 34 Z" fill="url(#flap)" stroke="#c2ab86" stroke-width="1.5"/>
+      <path d="M 18 184 L 112 108 M 282 184 L 188 108" stroke="#cdb693" stroke-width="1.2" fill="none"/>
+
+      <g class="seal-group">
+        <circle cx="150" cy="128" r="25" fill="url(#wax)"/>
+        <circle cx="150" cy="128" r="25" fill="none" stroke="#5e1c19" stroke-width="1"/>
+      </g>
+    </svg>
+
+    <p class="eyebrow">The Age Of Abundance</p>
+    <h1 class="headline">If you&#39;re here right now...</h1>
+    <p class="subline" id="subline">it&#39;s no accident. God chose this moment to change your story.</p>
+
+    <form class="ask" id="ask" autocomplete="off" novalidate>
+      <label for="visitor">Enter your name</label>
+      <input id="visitor" type="text" name="visitor_given_name"
+             placeholder="Enter your name here"
+             autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="40" />
+      <p class="hint">Enter your name to begin your manifestation journey.</p>
+      <button type="submit" id="open">Start my Journey</button>
+    </form>
+  </main>
+</section>
+
+<!-- ===================== ETAPA 2: o chat ===================== -->
+<section id="chat" hidden>
+  <div class="sanctum" aria-hidden="true">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#ecc97f" stroke-width=".5">
+      <circle cx="100" cy="100" r="97"/><circle cx="100" cy="100" r="90"/>
+      <g stroke-width=".6"><line x1="100" y1="3" x2="100" y2="10" transform="rotate(0 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(10 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(20 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(30 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(40 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(50 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(60 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(70 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(80 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(90 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(100 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(110 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(120 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(130 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(140 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(150 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(160 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(170 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(180 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(190 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(200 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(210 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(220 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(230 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(240 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(250 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(260 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(270 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(280 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(290 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(300 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(310 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(320 100 100)"/><line x1="100" y1="3" x2="100" y2="10" transform="rotate(330 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(340 100 100)"/><line x1="100" y1="3" x2="100" y2="6" transform="rotate(350 100 100)"/></g>
+      <circle cx="100" cy="100" r="80"/>
+      <circle cx="140.00" cy="100.00" r="40"/><circle cx="120.00" cy="134.64" r="40"/><circle cx="80.00" cy="134.64" r="40"/><circle cx="60.00" cy="100.00" r="40"/><circle cx="80.00" cy="65.36" r="40"/><circle cx="120.00" cy="65.36" r="40"/><circle cx="134.64" cy="120.00" r="40"/><circle cx="100.00" cy="140.00" r="40"/><circle cx="65.36" cy="120.00" r="40"/><circle cx="65.36" cy="80.00" r="40"/><circle cx="100.00" cy="60.00" r="40"/><circle cx="134.64" cy="80.00" r="40"/>
+      <circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="20"/>
+    </svg>
+  </div>
+  <div class="app">
+    <!-- topo: barra da conversa do WhatsApp + o saldo do quiz como mensagem fixada -->
+    <header class="wa-top">
+      <svg class="wa-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      <span class="wa-ava"><img src="assets/jesus.jpg" alt=""></span>
+      <span class="wa-who">
+        <span class="wa-name">The Age Of Abundance<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.5l2.4 1.8 3-.2.9 2.9 2.5 1.7-.9 2.9.9 2.9-2.5 1.7-.9 2.9-3-.2L12 22.5l-2.4-1.8-3 .2-.9-2.9-2.5-1.7.9-2.9-.9-2.9 2.5-1.7.9-2.9 3 .2z"/><path d="M8 12.2l2.6 2.6L16 9.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="wa-status" id="status">online</span>
+      </span>
+      <span class="wa-icons" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="2.5"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      </span>
+    </header>
+    <div class="wa-pin" id="qtop" hidden>
+      <div class="pin-row">
+        <span class="pin-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M16 15h2.5"/><path d="M6 6V4.5h12V6"/></svg></span>
+        <span class="pin-main">
+          <span class="pin-label">ACCOUNT BALANCE</span><br>
+          <span class="pin-value" id="qtBox"><span id="qtValue">$0.00</span></span>
+        </span>
+        <span class="pin-pct" id="qtPct">0%</span>
+      </div>
+      <div class="qt-bar"><b></b><i id="qtFill"></i></div>
+      <p class="pin-note">Your energy is aligning with the divine...</p>
+    </div>
+    <!-- No Typebot os botoes e o campo de resposta NAO ficam presos no rodape:
+         eles entram no proprio fluxo da conversa, logo abaixo da ultima bolha,
+         e rolam junto com ela. Por isso o dock vive dentro do thread. -->
+    <div class="thread" id="thread">
+      <div class="dock" id="dock">
+        <div class="choices hidden" id="choices"></div>
+        <form class="composer hidden" id="composer" autocomplete="off">
+          <textarea id="answer" rows="1" placeholder="Write your pain or the miracle you need..." maxlength="500"></textarea>
+          <button type="submit" aria-label="Continue"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3.4 20.4l17.4-7.5a1 1 0 0 0 0-1.8L3.4 3.6a.7.7 0 0 0-1 .8L4.6 11l9 1-9 1-2.2 6.6a.7.7 0 0 0 1 .8z"/></svg></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="veil" id="veil"><span id="veilText"></span></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================== CONFIG ===========================
+     Tudo o que voce troca fica aqui em cima.                      */
+  var CONFIG = {
+    /* >>> PARA ONDE O ULTIMO BOTAO DO CHAT MANDA (a pagina da VSL) <<<
+       Aceita URL absoluta ("https://seudominio.com/live/") ou relativa
+       ("live/" se a VSL estiver numa subpasta ao lado desta pagina).   */
+    VSL_URL: 'vsl/',             // a VSL no layout do quiz original (quiz-chat/vsl/)
+    OPEN_IN_NEW_TAB: false,      // o original abria em nova aba; false mantem a mesma sessao
+
+    VARIANT: 'JC-QUIZCHAT',      // rotulo da variante que segue no querystring
+    HANDOFF_MS: 2600,            // duracao da animacao de "abrir a carta" (igual a carta)
+
+    AVATAR: 'assets/jesus.jpg',  // foto do "remetente"
+    INTRO_IMAGE: 'assets/jesus.jpg',
+
+    /* Ritmo: copiado do typingEmulation do Typebot original
+       (funil-jesus-digi-v-1-lveumlg em bot.typebot.digital)
+       { enabled: true, speed: 120, maxDelay: 6,
+         delayBetweenBubbles: 2, isDisabledOnFirstMessage: true } */
+    WPM: 240,                    // 2x o Typebot (era 120) - palavras por minuto
+    MAX_TYPING_S: 3,             // 2x o Typebot (era 6) - teto do "digitando"
+    GAP_BETWEEN_BUBBLES_S: 2,    // typingEmulation.delayBetweenBubbles
+    FIRST_BUBBLE_INSTANT: true,  // typingEmulation.isDisabledOnFirstMessage
+
+    /* Bolha de imagem - o Typebot trata ela separado do texto: segura o
+       "digitando" ate a foto carregar (teto de 5s) e espera mais 400ms antes
+       da proxima bolha. Como aqui a foto e local e carrega em milissegundos,
+       o MIN garante a mesma batida que o original tem por vir da rede. */
+    SHOW_ANIMATION_MS: 400,      // showAnimationDuration: pausa depois que a bolha
+                                 // abre, antes da proxima comecar a digitar
+    MEDIA_MIN_TYPING_MS: 450,    // batida minima do "digitando" na foto (era 900)
+    MEDIA_FALLBACK_MS: 5000,     // teto do Typebot esperando a foto carregar
+
+    /* ---------- Jornada (o quiz em conversa) ---------- */
+    GO_DELAY_MS: 1200,           // pausa depois dos 100% antes de ir pra VSL
+    PROCESSING_MS: 1000,         // "Processing your answer..." - o V(1000) do quiz
+    PROCESS_MS: 25000,           // tela final: 0.4% a cada 100ms = 25s, como no quiz
+    /* Fotos das conquistas (CC0, origem em assets/unlock/LICENCAS.json) */
+    UNLOCK_PHOTO: {
+      x100: 'assets/unlock/x100.jpg',     future: 'assets/unlock/future.jpg',
+      faith: 'assets/unlock/faith.jpg',   home: 'assets/unlock/home.jpg',
+      car: 'assets/unlock/car.jpg',       family: 'assets/unlock/family.jpg',
+      health: 'assets/unlock/health.jpg', money: 'assets/unlock/money.jpg',
+      boost: 'assets/unlock/boost.jpg',   blocks: 'assets/unlock/blocks.jpg',
+      motiv: 'assets/unlock/motiv.jpg'
+    }
+  };
+  /* ============================================================== */
+
+  var TRACKED = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','utm_id',
+                 'sub1','sub2','sub3','xcod','sck','click_id','gclid','ttclid','fbclid'];
+
+  var landed = new URLSearchParams(location.search);
+
+  /* O nome digitado na etapa 1. E a unica coisa que as duas etapas
+     compartilham - e por estarem no mesmo documento, nao precisa mais
+     viajar pelo querystring. */
+  var firstName = '';
+  var answers   = [];   // [{q, a}] respostas da jornada
+  var amount    = 0;    // valor digitado no "bank account today"
+
+  var letterEl = document.getElementById('letter');
+  var chatEl   = document.getElementById('chat');
+  var stage    = document.getElementById('stage');
+  var form     = document.getElementById('ask');
+  var input    = document.getElementById('visitor');
+  var button   = document.getElementById('open');
+  var subline  = document.getElementById('subline');
+  var veil     = document.getElementById('veil');
+  var veilText = document.getElementById('veilText');
+
+  /* =====================================================================
+     ETAPA 1 - ENTRADA (layout da carta)
+     ===================================================================== */
+
+  /* Poeira: uma particula por vez, removida ao terminar, para o numero de
+     nos ficar estavel. Desktop aguenta mais que celular. */
+  var MOTE_CAP = window.matchMedia('(min-width: 768px)').matches ? 22 : 12;
+  var motesAlive = 0;
+  var moteTimer;
+
+  function dropMote() {
+    if (motesAlive >= MOTE_CAP || document.hidden) return;
+    var m = document.createElement('div');
+    m.className = 'mote';
+    var size = 2 + Math.random() * 2.6;
+    m.style.width = m.style.height = size + 'px';
+    m.style.left = (Math.random() * 96) + 'vw';
+    m.style.top = '0';
+    var life = 11 + Math.random() * 9;
+    m.style.animationDuration = life + 's';
+    letterEl.appendChild(m);
+    motesAlive++;
+    setTimeout(function () { m.remove(); motesAlive--; }, life * 1000);
+  }
+  /* O script de UTMs da UTMify escreve um espaco no campo de nome depois
+     do load - o placeholder some e o campo parece travado. Limpa enquanto
+     ninguem digitou. */
+  function clearGhost() { if (input.value && !input.value.trim()) input.value = ''; }
+  var ghostTimer = setInterval(clearGhost, 250);
+  setTimeout(function () { clearInterval(ghostTimer); }, 20000);
+  input.addEventListener('focus', clearGhost);
+  input.addEventListener('input', function () { clearInterval(ghostTimer); input.classList.remove('nope'); });
+
+  moteTimer = setInterval(dropMote, 900);
+  for (var i = 0; i < 4; i++) dropMote();
+
+  /* _fbp e escrito pelo pixel da Meta (que aqui foi removido). _fbc precisa
+     ser montado na mao no primeiro pageview depois do clique no anuncio,
+     porque o pixel so escreve o cookie depois de carregar. Ambos seguem
+     para a VSL/checkout no final. */
+  function readCookie(name) {
+    var hit = document.cookie.match('(?:^|; )' + name.replace(/([.*+?^${}()|[\]\\])/g, '\\$1') + '=([^;]*)');
+    return hit ? decodeURIComponent(hit[1]) : '';
+  }
+  function facebookClickId() {
+    var existing = readCookie('_fbc');
+    if (existing) return existing;
+    var clickId = landed.get('fbclid');
+    return clickId ? 'fb.1.' + Date.now() + '.' + clickId : '';
+  }
+
+  /* O botao continua habilitado; sem nome, o campo treme e ganha foco.
+     Botao desabilitado nao diz o motivo e le como pagina quebrada. */
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var name = input.value.trim().replace(/\s+/g, ' ');
+    if (!name) {
+      input.classList.remove('nope'); void input.offsetWidth; input.classList.add('nope');
+      input.focus();
+      return;
+    }
+
+    firstName = name;
+    button.disabled = true;
+    button.textContent = 'Starting your journey\u2026';
+    input.blur();
+
+    try { sessionStorage.setItem('mwfy_first_name', name); } catch (err) { /* aba anonima */ }
+
+    clearInterval(moteTimer);
+    stage.classList.add('parting');
+
+    /* sobe o veu enquanto o palco ainda esta sumindo, para ele ja estar
+       pintado antes da troca de etapa (igual a carta) */
+    setTimeout(function () { veil.classList.add('up'); }, CONFIG.HANDOFF_MS - 1100);
+    setTimeout(openChat, CONFIG.HANDOFF_MS);
+  });
+
+  /* Troca de etapa dentro do mesmo documento: sem navegacao, sem recarga,
+     sem perder o nome nem os parametros da campanha. */
+  function openChat() {
+    clearInterval(moteTimer);
+    preloadPhotos();
+    letterEl.hidden = true;
+    chatEl.hidden = false;
+    document.body.className = 'mode-chat';
+    document.title = 'The Age Of Abundance';
+    veil.classList.remove('up');
+    startChat();
+  }
+
+  /* =====================================================================
+     ETAPA 2 - O CHAT
+     ===================================================================== */
+
+  var thread    = document.getElementById('thread');
+  var dock      = document.getElementById('dock');
+  var choicesEl = document.getElementById('choices');
+  var composer  = document.getElementById('composer');
+  var answerEl  = document.getElementById('answer');
+
+  /* ---------- Roteiro: as telas do quiz, na ordem e com o texto dele ----------
+     Mesmo array do original - os indices importam, porque cada conquista
+     aparece a partir do indice da sua tela (ACH[].at). Cada tela vira uma
+     rodada da mesma conversa, que vai acumulando; o painel do quiz fica
+     fixo no topo. {name} = nome digitado na entrada. */
+  var STEPS = [
+    { type: 'continue' },
+    { type: 'journey' },
+    { type: 'unlocked' },
+    { type: 'question', badge: "Financial Awakening", progress: 10,
+      question: "{name}, do you feel like you're living the life God dreamed for you?",
+      options: ["Yes, but I know I can live more", "No, I feel I'm far from it", "Sometimes I wonder about this..."] },
+    { type: 'question', badge: "Financial Awakening", progress: 14,
+      question: "How often do you feel an emptiness in your chest... as if something is missing?",
+      options: ["Every day", "A few times a week", "Rarely"] },
+    { type: 'question', badge: "Financial Awakening", progress: 19,
+      question: "Do you feel stuck in the same negative cycles for years?",
+      options: ["Yes, it feels like a loop", "Sometimes I feel this", "I'm not sure"] },
+    { type: 'question', badge: "Financial Awakening", progress: 24,
+      question: "If the life you live today was the direct result of your own choices... would you be satisfied?",
+      options: ["No, I want to change", "More or less", "Yes, but I want more"] },
+    { type: 'unlock-screen', title: "I Choose My Future", description: "The power to change your life is in your hands!", image: 'future' },
+    { type: 'question', badge: "Faith & Spiritual Purpose", progress: 29,
+      question: "How many times have you asked God for a sign to change your life?",
+      options: ["Many times", "A few times", "I don't usually ask for signs", "This is my first time"] },
+    { type: 'question', badge: "Faith & Spiritual Purpose", progress: 33,
+      question: "{name}, if today were your final faith test... what would you do right now?",
+      options: ["I would take action like someone who believes in miracles", "I'd take a small, scared step... but still take a step", "I'd stay frozen... one more time... just like the other times I gave up"] },
+    { type: 'question', badge: "Faith & Spiritual Purpose", progress: 38,
+      question: "Do you believe God can transform your life with just one single decision from you?",
+      options: ["Yes, absolutely", "I have doubts", "I don't know"] },
+    { type: 'question', badge: "Faith & Spiritual Purpose", progress: 43,
+      question: "Are you willing to make TODAY your day of faith and responsibility for your new life?",
+      options: ["Yes, I'm ready", "I need a clearer sign", "No"] },
+    { type: 'unlock-screen', title: "Faith Decision", description: "Your Faith Will Move Mountains", image: 'faith' },
+    { type: 'question', badge: "Future Visualization", progress: 48,
+      question: "If God gave you the chance to win your dream home... what would it look like?",
+      options: ["Large, with several rooms", "A modern apartment", "A simple house, but full of peace", "I don't think much about it"] },
+    { type: 'unlock-screen', title: "Dream Home", description: "Your Dream Home Is on Its Way", image: 'home' },
+    { type: 'question', badge: "Future Visualization", progress: 52,
+      question: "What car do you imagine parked in front of your ideal home?",
+      options: ["A luxury SUV", "A comfortable sedan", "A simple but reliable car", "I don't care about cars"] },
+    { type: 'unlock-screen', title: "Dream Car", description: "Your Dream Car Is Reserved", image: 'car' },
+    { type: 'question', badge: "Future Visualization", progress: 57,
+      question: "What is your family life like today?",
+      options: ["I feel there's a lack of unity", "I miss someone special", "I have a good family, but we can be happier", "I don't think much about it"] },
+    { type: 'unlock-screen', title: "Happy Family", description: "The Happy Family You Deserve", image: 'family' },
+    { type: 'question', badge: "Future Visualization", progress: 62,
+      question: "If you could wake up tomorrow with perfect health... what would be different?",
+      options: ["More energy to chase my dreams", "Being able to play sports without pain", "Feeling good about my body", "My health is good, but I want more vitality"] },
+    { type: 'unlock-screen', title: "Perfect Health", description: "Your Perfect Health Is Activated", image: 'health' },
+    { type: 'question', badge: "Future Visualization", progress: 67,
+      question: "If you received a large sum of money today... what would you do first?",
+      options: ["Pay off my debts", "Buy a house", "Fulfill my family's dream", "Invest in my future"] },
+    { type: 'unlock-screen', title: "Abundance", description: "Imagine... $277,000 being deposited into your account right now!", image: 'money', buttonText: "YES! I believe, I receive!" },
+    { type: 'motivational', title: "{name}", description: "Your manifestation potential depends on your choice, think big to manifest big things, you are the size of your courage.", image: 'money', buttonText: "Continue Journey", addToBalance: 2000000 },
+    { type: 'question', badge: "Future Visualization", progress: 71,
+      question: "Imagine that 30 days from now, your life is 100% transformed. Which of these images represents your future?",
+      options: ["Luxury home and financial freedom", "Perfect health and vitality", "Happy family and love", "Travel and new experiences"] },
+    { type: 'unlock-screen', title: "100x Boost", description: "Your Manifestation Power Just Multiplied by 100x", image: 'boost' },
+    { type: 'question', badge: "Breaking Blocks", progress: 76,
+      question: "Do you feel there's something spiritual or emotional blocking you?",
+      options: ["Yes, a weight I can't explain", "Sometimes I feel this", "No"] },
+    { type: 'question', badge: "Breaking Blocks", progress: 81,
+      question: "Which of these statements best describes you?",
+      options: ["I feel cursed, nothing ever works out for me", "My life has never been easy", "I don't feel worthy", "I lack energy and motivation"] },
+    { type: 'unlock-screen', title: "Blocks Broken", description: "All Mental Blocks Have Been Removed", image: 'blocks' },
+    { type: 'question', badge: "Final Choice", progress: 86,
+      question: "Do you accept to be part of a group of people who decided to create their dream life through the power of faith?",
+      options: ["Yes, I accept", "I'm not sure", "I need to think about it"] },
+    { type: 'question', badge: "Final Choice", progress: 90,
+      question: "If you could change just one thing right now... what would it be?",
+      options: ["My financial situation", "My relationships", "My health", "My purpose in life"] },
+    { type: 'question', badge: "Final Choice", progress: 95,
+      question: "If God gave you the chance to start over today... would you accept?",
+      options: ["Yes, without hesitation", "Yes, but with some fear", "I'm not ready"] },
+    { type: 'question', badge: "Final Choice", progress: 100,
+      question: "To finish... complete this sentence:\n\"From today onwards...\"",
+      options: ["I choose to live in abundance", "I accept the destiny God has reserved for me", "I free myself from everything that was blocking me"] },
+    { type: 'final' }
+  ];
+
+  /* conquistas: mesma ordem e mesmo indice de desbloqueio do original */
+  var ACH = [
+    { name: "I Choose My Future",  key: 'future', at: 7 },
+    { name: "Faith Decision",      key: 'faith',  at: 12 },
+    { name: "Dream Home",          key: 'home',   at: 14 },
+    { name: "Dream Car",           key: 'car',    at: 16 },
+    { name: "Happy Family",        key: 'family', at: 18 },
+    { name: "Perfect Health",      key: 'health', at: 20 },
+    { name: "Abundance",           key: 'money',  at: 22 },
+    { name: "100x Boost",          key: 'boost',  at: 25 },
+    { name: "Blocks Broken",       key: 'blocks', at: 28 },
+    { name: "100x Multiplication", key: 'x100',   at: 2 }
+  ];
+
+  /* notificacoes "PROCESSING" da tela final */
+  var NOTES = [
+    ['🏠', 'Manifesting your dream home in the spiritual realm...'],
+    ['🚗', 'Reserving your ideal car...'],
+    ['👨‍👩‍👧', 'Aligning your family happiness...'],
+    ['💗', 'Activating perfect health protocols...'],
+    ['🔓', 'Breaking spiritual and emotional blocks...'],
+    ['🌟', 'Preparing your 100x manifestation boost...'],
+    ['💰', 'Unlocking abundance channels...'],
+    ['✨', 'Finalizing your divine script...']
+  ];
+
+  /* icones (os mesmos desenhos do quiz) */
+  var HEART_PATH = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
+  var BOLT_PATH  = 'M13 2L3 14h9l-1 8 10-12h-9l1-8z';
+  var SVG = {
+    heart:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="' + HEART_PATH + '"/></svg>',
+    bolt:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="' + BOLT_PATH + '"/></svg>',
+    check:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    checkRound: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l2.5 2.5L16 9"/></svg>',
+    star5:  '<svg class="star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L14.09 8.26L20.18 8.63L15.54 12.74L16.91 18.72L12 15.27L7.09 18.72L8.46 12.74L3.82 8.63L9.91 8.26L12 2Z"/></svg>',
+    star4:  '<svg class="star small" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z"/></svg>',
+    lock:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 118 0v4"/></svg>',
+    lockBig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2.2"/><path class="shackle" d="M8 11V8a4 4 0 0 1 8 0v3"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg>',
+    spark:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>'
+  };
+
+  /* ---------- Render ----------
+     Estrutura copiada do Typebot:
+
+       <div class="chunk">              grupo de bolhas do host, ate um input
+         <div class="avatar-col">         coluna de 40px
+           <div class="avatar-slot">        absoluto, top = altura do grupo - 40
+             <img class="avatar">             desliza (top 350ms) quando cresce
+         <div class="stack">              as bolhas, gap de 8px
+           <div class="bubble-wrap">        fade-in de 300ms
+             <div class="host-bubble">
+               <div class="pill">             "digitando" 64x32 -> 100%x100%
+               <div class="content">          texto: opacity 0 -> 1, h 20 -> auto
+
+     O pill NAO e trocado por outro no: ele e o fundo da bolha e cresce ate o
+     tamanho final. Por isso a bolha nao "pula" e o avatar acompanha. */
+
+  var TODAY = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  function fill(text) { return text.replace(/\{name\}/g, firstName).replace(/\{date\}/g, TODAY); }
+  function esc(text) { return text.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function scrollDown() { thread.scrollTop = thread.scrollHeight; }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  var stack = null;   // grupo do host em construcao (null = comeca um novo)
+
+  /* Abre um grupo do host, com a coluna do avatar. O Typebot observa a altura
+     do grupo e reposiciona o avatar a cada mudanca - sem isso ele fica parado
+     no topo enquanto as bolhas entram embaixo. */
+  function hostChunk() {
+    if (stack) return stack;
+
+    var chunk = document.createElement('div');
+    chunk.className = 'chunk';
+
+    var col  = document.createElement('div');
+    col.className = 'avatar-col';
+    var slot = document.createElement('div');
+    slot.className = 'avatar-slot';
+    var face = document.createElement('img');
+    face.className = 'avatar';
+    face.src = CONFIG.AVATAR;
+    face.alt = '';
+    slot.appendChild(face);
+    col.appendChild(slot);
+
+    stack = document.createElement('div');
+    stack.className = 'stack';
+
+    chunk.appendChild(col);
+    chunk.appendChild(stack);
+    thread.insertBefore(chunk, dock);
+
+    var follow = (function (el, target) {
+      return function () { target.style.setProperty('--top', el.offsetHeight + 'px'); };
+    })(stack, slot);
+    follow();
+    if (window.ResizeObserver) new ResizeObserver(follow).observe(stack);
+    else setInterval(follow, 120);
+
+    return stack;
+  }
+
+  /* A resposta do visitante fecha o grupo: o proximo bloco de bolhas do host
+     comeca um grupo novo, com avatar proprio. */
+  function guestBubble(text) {
+    stack = null;
+    var chunk = document.createElement('div');
+    chunk.className = 'chunk guest';
+    var bubble = document.createElement('div');
+    bubble.className = 'guest-bubble';
+    bubble.innerHTML = esc(text) + stamp(TICKS);
+    chunk.appendChild(bubble);
+    thread.insertBefore(chunk, dock);
+    setTimeout(function () { bubble.classList.add('read'); }, 700);
+    scrollDown();
+  }
+
+  /* hora no canto das bolhas, como no WhatsApp */
+  function clock() { return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
+  function stamp(extra) { return '<span class="time">' + clock() + (extra || '') + '</span>'; }
+
+  /* status "typing..." - so existe se o topo tiver o #status (o topo do quiz nao tem) */
+  var statusEl = document.getElementById('status');
+  var typingNow = 0;
+  function setTyping(delta) {
+    typingNow = Math.max(0, typingNow + delta);
+    if (!statusEl) return;
+    statusEl.textContent = typingNow ? 'typing...' : 'online';
+    statusEl.classList.toggle('typing', !!typingNow);
+  }
+
+  /* Bolha do host: nasce "digitando" e depois abre. */
+  /* kind: false = texto, true = imagem, ou uma classe ('card', 'quote') */
+  function hostBubble(isMedia) {
+    var host = hostChunk();
+
+    var wrap = document.createElement('div');
+    wrap.className = 'bubble-wrap';
+    var line = document.createElement('div');
+    line.className = 'bubble-line';
+    var bubble = document.createElement('div');
+    bubble.className = 'host-bubble' + (isMedia === true ? ' media' : isMedia ? ' ' + isMedia : '');
+
+    var pill = document.createElement('div');
+    pill.className = 'pill';
+    pill.innerHTML = '<div class="typing"><i></i><i></i><i></i></div>';
+    var content = document.createElement('div');
+    content.className = 'content';
+
+    bubble.appendChild(pill);
+    bubble.appendChild(content);
+    line.appendChild(bubble);
+    wrap.appendChild(line);
+    host.appendChild(wrap);
+    scrollDown();
+    setTyping(1);
+
+    var revealed = false;
+    return {
+      el: wrap,
+      content: content,
+      reveal: function () {
+        if (!revealed) { revealed = true; setTyping(-1); }
+        bubble.classList.add('shown'); scrollDown();
+      }
+    };
+  }
+
+  /* Conta EXATA do Typebot (funcao bx do bundle @typebot.io/js):
+       palavras = texto.match(/(\w+)/g) -> quantidade
+       se der zero (bolha so de emoji/pontuacao) -> usa o numero de caracteres
+       ms = (palavras / speed) * 60000, limitado a maxDelay * 1000
+     Sem piso minimo: "Right?" digita 500ms. */
+  function typingMs(text) {
+    var plain = text.replace(/<[^>]+>/g, '');
+    var hits = plain.match(/(\w+)/g);
+    var words = hits ? hits.length : 0;
+    if (words === 0) words = plain.length;
+    var ms = (words / CONFIG.WPM) * 60000;
+    return Math.min(ms, CONFIG.MAX_TYPING_S * 1000);
+  }
+
+  function say(text, gap) {
+    var body = fill(text);
+    var b = hostBubble(false);
+    return wait(typingMs(body)).then(function () {
+      b.content.innerHTML = body + stamp();   /* preenche antes de abrir: a bolha
+                                                 cresce ja no tamanho certo */
+      b.reveal();
+      return wait(CONFIG.SHOW_ANIMATION_MS + gap);
+    });
+  }
+
+  /* Imagem: o "digitando" fica ate a foto carregar (teto de 5s) e so entao a
+     bolha abre. O MIN existe porque a foto aqui e local e carrega em 3ms -
+     no original ela vem da rede e sempre tem essa batida. */
+  function showImage(src, gap) {
+    var b = hostBubble(true);
+    var img = document.createElement('img');
+    img.alt = '';
+    b.content.appendChild(img);
+    var startedAt = Date.now();
+
+    return new Promise(function (resolve) {
+      img.onload = img.onerror = resolve;
+      img.src = src;
+      setTimeout(resolve, CONFIG.MEDIA_FALLBACK_MS);
+    }).then(function () {
+      return wait(Math.max(0, CONFIG.MEDIA_MIN_TYPING_MS - (Date.now() - startedAt)));
+    }).then(function () {
+      b.reveal();
+      return wait(CONFIG.SHOW_ANIMATION_MS + gap);
+    });
+  }
+
+  /* opts.cta  = botao de acao dos cartoes (centralizado, com icone)
+     opts.icon = svg que vai antes do texto
+     A opcao escolhida ganha o anel dourado do quiz antes da resposta subir. */
+  function askChoice(options, opts) {
+    opts = opts || {};
+    return new Promise(function (resolve) {
+      choicesEl.innerHTML = '';
+      choicesEl.classList.remove('hidden');
+      options.forEach(function (label) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'choice' + (opts.cta ? ' cta' : '');
+        b.innerHTML = (opts.icon || '') + '<span>' + esc(label) + '</span>';
+        b.addEventListener('click', function () {
+          if (choicesEl.dataset.busy) return;
+          choicesEl.dataset.busy = '1';
+          b.classList.add('picked');
+          setTimeout(function () {
+            delete choicesEl.dataset.busy;
+            choicesEl.classList.add('hidden');
+            choicesEl.innerHTML = '';
+            guestBubble(label);
+            resolve(label);
+          }, 220);
+        });
+        choicesEl.appendChild(b);
+      });
+      scrollDown();
+    });
+  }
+
+  /* numeric = so aceita digitos, abre o teclado numerico e devolve o numero */
+  function askText(placeholder, numeric) {
+    return new Promise(function (resolve) {
+      answerEl.placeholder = placeholder || '';
+      answerEl.setAttribute('inputmode', numeric ? 'numeric' : 'text');
+      answerEl.maxLength = numeric ? 12 : 500;
+      composer.classList.toggle('numeric', !!numeric);
+      composer.classList.remove('hidden');
+      answerEl.focus();
+
+      function submit(e) {
+        if (e) e.preventDefault();
+        var value = answerEl.value.trim();
+        if (numeric) value = value.replace(/[^0-9]/g, '');
+        if (!value) { answerEl.focus(); return; }
+        composer.removeEventListener('submit', submit);
+        composer.classList.add('hidden');
+        answerEl.value = '';
+        answerEl.style.height = 'auto';
+        if (numeric) {
+          var n = parseInt(value, 10);
+          guestBubble('$' + n.toLocaleString('en-US'));
+          resolve(n);
+        } else {
+          guestBubble(value);
+          resolve(value);
+        }
+      }
+
+      composer.addEventListener('submit', submit);
+      scrollDown();
+    });
+  }
+
+  /* Enter envia, Shift+Enter quebra linha. O campo cresce ate o teto do CSS. */
+  answerEl.addEventListener('input', function () {
+    if (composer.classList.contains('numeric')) answerEl.value = answerEl.value.replace(/[^0-9]/g, '');
+    answerEl.style.height = 'auto';
+    answerEl.style.height = Math.min(answerEl.scrollHeight, 120) + 'px';
+  });
+  answerEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      composer.dispatchEvent(new Event('submit', { cancelable: true }));
+    }
+  });
+
+  /* =====================================================================
+     TELAS DO QUIZ EM CONVERSA
+     ===================================================================== */
+
+  var TICKS = '<svg class="ticks" viewBox="0 0 16 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l3 3 6-7"/><path d="M6.5 9l1 1 6-8"/></svg>';
+
+  var h = 0;                 // indice da tela atual (o mesmo "h" do quiz)
+  var balance = 0;           // saldo real
+
+  function fmt(v) { return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  function preloadPhotos() {
+    Object.keys(CONFIG.UNLOCK_PHOTO).forEach(function (k) { new Image().src = CONFIG.UNLOCK_PHOTO[k]; });
+  }
+
+  /* bloco solto no meio da conversa (painel, selo, "processing") */
+  function block(cls, html) {
+    stack = null;
+    var el = document.createElement('div');
+    el.className = cls;
+    el.innerHTML = html;
+    thread.insertBefore(el, dock);
+    scrollDown();
+    return el;
+  }
+
+  function countUp(el, from, to, ms) {
+    var t0 = performance.now();
+    (function frame(t) {
+      var p = Math.min(1, (t - t0) / ms), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = '$' + fmt(from + (to - from) * e);
+      if (p < 1) requestAnimationFrame(frame);
+    })(t0);
+  }
+
+  /* ---------- topo (fixo, fora da conversa) ----------
+     Saldo, % e barra do quiz na "mensagem fixada". Aparece na tela journey
+     e fica; o saldo conta ate o valor novo sempre que muda. */
+  var qtop    = document.getElementById('qtop');
+  var qtValue = document.getElementById('qtValue');
+  var qtBox   = document.getElementById('qtBox');
+  var qtPct   = document.getElementById('qtPct');
+  var qtFill  = document.getElementById('qtFill');
+  var shownBalance = 0;
+
+  function syncBalance() {
+    if (balance === shownBalance) return;
+    var gained = balance - shownBalance;
+    countUp(qtValue, shownBalance, balance, 1500);
+    shownBalance = balance;
+    qtBox.classList.remove('bump'); void qtBox.offsetWidth; qtBox.classList.add('bump');
+    var plus = document.createElement('span');
+    plus.className = 'pin-plus';
+    plus.textContent = '+$' + fmt(gained);
+    qtBox.appendChild(plus);
+    setTimeout(function () { plus.remove(); }, 2300);
+  }
+
+  function hud(progress) {
+    if (qtop.hidden) {
+      qtop.hidden = false;
+      void qtFill.offsetWidth;          /* a barra sai do 0 animando */
+    }
+    qtPct.textContent = progress + '%';
+    qtFill.style.width = 'calc((100% - 14px) * ' + (progress / 100) + ')';
+    syncBalance();
+    return wait(400);
+  }
+
+  /* selo do bloco: como o chip de data do WhatsApp, so quando muda */
+  var lastBadge = '';
+  function badge(text) {
+    if (text === lastBadge) return Promise.resolve();
+    lastBadge = text;
+    block('badge', esc(text));
+    return wait(350);
+  }
+
+  /* "Processing your answer..." por 1s (o V(1000) do quiz) e some -
+     a conversa fica, o aviso nao */
+  function processing() {
+    var b = hostBubble(false);
+    b.content.classList.add('no-stamp');
+    b.content.innerHTML = '<span class="proc-line"><span class="spin"></span>Processing your answer...</span>';
+    b.reveal();
+    return wait(CONFIG.PROCESSING_MS).then(function () {
+      var chunk = b.el.closest('.chunk');
+      b.el.remove();
+      if (chunk && !chunk.querySelector('.bubble-wrap')) chunk.remove();
+      stack = null;
+    });
+  }
+
+  /* cartao alto: abre pelo topo dele, senao a foto fica escondida em cima */
+  function scrollToCard(el) {
+    var box = el.closest('.bubble-wrap') || el;
+    var t = thread.getBoundingClientRect(), r = box.getBoundingClientRect();
+    if (r.height > t.height - 24) thread.scrollTop += r.top - t.top - 8;
+    else scrollDown();
+  }
+
+  /* cartao entregue pelo Jesus: "digitando" e depois abre */
+  function card(html, cls) {
+    var b = hostBubble('card');
+    var el = document.createElement('div');
+    el.className = 'qcard' + (cls ? ' ' + cls : '');
+    el.innerHTML = html + stamp();
+    b.content.appendChild(el);
+    return wait(CONFIG.MEDIA_MIN_TYPING_MS).then(function () { b.reveal(); scrollToCard(el); return el; });
+  }
+
+  function sparks() {
+    var out = '';
+    for (var i = 0; i < 14; i++) {
+      var a = (i / 14) * Math.PI * 2 + Math.random() * 0.4;
+      var r = 80 + Math.random() * 60;
+      out += '<span class="u-spark" style="--x:' + (Math.cos(a) * r).toFixed(0) + 'px;--y:' + (Math.sin(a) * r).toFixed(0) + 'px;--d:' + (Math.random() * 0.15).toFixed(2) + 's"></span>';
+    }
+    return out;
+  }
+
+  /* ---------- tela "continue" ---------- */
+  function screenContinue() {
+    return card(
+      '<div class="c-title">' + esc(firstName) + ', before we continue...' + SVG.heart + '</div>' +
+      '<div class="c-box">' +
+        '<p class="c-label">Repeat this phrase out loud:</p>' +
+        '<p class="c-phrase">"The life of my dreams begins\nwith my choice."</p>' +
+      '</div>' +
+      '<p class="c-note">Only click continue after repeating it out loud.</p>', 'cont'
+    ).then(function () {
+      return askChoice(["Continue Journey"], { cta: true, icon: SVG.heart });
+    });
+  }
+
+  /* ---------- tela "journey": saldo $0.00, 5% e a pergunta da conta ---------- */
+  function screenJourney() {
+    return hud(5)
+      .then(function () { return badge("Financial Awakening"); })
+      .then(function () { return say(firstName + ", if you looked at your bank account today, how much would you have available?", 0); })
+      .then(function () { return askText("Enter numbers only (e.g. 1500)", true); })
+      .then(function (n) {
+        amount = n;
+        answers.push({ q: 'bank account today', a: String(n) });
+        balance = 100 * n;                       /* j(100*Number.parseFloat(b)) */
+      });
+  }
+
+  /* ---------- cartao de desbloqueio ----------
+     0 foto borrada e escura atras do cadeado | 250 treme | 1100 destrava |
+     1450 explode em luz e a foto aparece | 2050 "UNLOCKED!", titulo e texto |
+     2550 botao                                                             */
+  function unlockCard(o) {
+    return card(
+      '<div class="u-pic">' +
+        '<img class="ph" src="' + CONFIG.UNLOCK_PHOTO[o.image] + '" alt="">' +
+        '<div class="u-lock"><span>' + SVG.lockBig + '</span></div><div class="u-flash"></div>' + sparks() +
+      '</div>' +
+      '<div class="cap">' +
+        '<div class="u-head">' + SVG.checkRound + 'UNLOCKED!' + (o.round ? SVG.star4 : SVG.star5) + '</div>' +
+        '<div class="u-title">' + esc(o.title) + '</div>' +
+        '<div class="u-desc">' + esc(o.desc) + '</div>' +
+        (o.bal ? '<div class="u-bal">New Balance: <b>$' + fmt(0) + '</b></div>' : '') +
+      '</div>'
+    ).then(function (el) {
+      var at = function (ms, fn) { return wait(ms).then(function () { fn(); }); };
+      return at(250, function () { el.classList.add('shake'); })
+        .then(function () { return at(850, function () { el.classList.add('unlatch'); }); })
+        .then(function () { return at(350, function () {
+          el.classList.add('open');
+          if (navigator.vibrate) try { navigator.vibrate(35); } catch (e) { /* sem vibracao */ }
+        }); })
+        .then(function () { return at(600, function () {
+          el.classList.add('told'); scrollDown();
+          if (o.bal) { countUp(el.querySelector('.u-bal b'), 0, balance, 1400); syncBalance(); }
+        }); })
+        .then(function () { return wait(500); });
+    }).then(function () {
+      return askChoice([o.button], { cta: true, icon: SVG.bolt });
+    });
+  }
+
+  function screenUnlocked() {
+    return unlockCard({
+      image: 'x100', big: true, round: true, white: true, bal: true,
+      title: "100x Multiplication",
+      desc: firstName + ", today I'm adding 100x more to your account — do you believe?",
+      button: "YES! I receive 100x more!"
+    });
+  }
+
+  function screenUnlock(st) {
+    return unlockCard({
+      image: st.image, title: st.title, desc: st.description,
+      button: st.buttonText || "Continue Evolution"
+    });
+  }
+
+  /* ---------- tela motivacional: foto, o nome, o texto e +$2,000,000 ---------- */
+  function screenMotivational(st) {
+    return card(
+      '<div class="u-pic"><img class="ph" src="' + CONFIG.UNLOCK_PHOTO[st.image] + '" alt=""></div>' +
+      '<div class="cap"><div class="u-title">' + esc(fill(st.title)) + '</div>' +
+      '<div class="u-desc">' + esc(st.description) + '</div></div>', 'motiv'
+    ).then(function (el) {
+      el.classList.add('open'); el.classList.add('told');
+      return wait(700);
+    }).then(function () {
+      return askChoice([st.buttonText], { cta: true, icon: SVG.bolt });
+    }).then(function () {
+      if (st.addToBalance) { balance += st.addToBalance; syncBalance(); }
+    });
+  }
+
+  /* ---------- pergunta: painel + selo + pergunta + opcoes + processing ---------- */
+  function screenQuestion(st) {
+    return hud(st.progress)
+      .then(function () { return badge(st.badge); })
+      .then(function () { return say(st.question, 0); })
+      .then(function () { return askChoice(st.options, {}); })
+      .then(function (a) {
+        answers.push({ q: fill(st.question), a: a });
+        return processing();
+      });
+  }
+
+  /* ---------- tela final ----------
+     25s de processamento (0.4% a cada 100ms), notificacoes "PROCESSING"
+     entrando a cada 3s (no maximo 3 na tela), a foto da conquista trocando
+     conforme a %, e depois a ultima tela antes da VSL. */
+  function screenFinal() {
+    return card(
+      '<p class="p-title">' + esc(firstName.toUpperCase()) + ', your Divine Manifestation Script is being created...</p>' +
+      '<p class="p-sub">Processing your answers with divine precision</p>' +
+      '<div class="p-bar"><i></i><b></b></div>' +
+      '<div class="p-meta"><span class="st">Starting transformation...</span><b class="pc">0%</b></div>' +
+      '<div class="p-ach"><h4>Achievements Unlocked</h4><div class="p-shot"></div></div>' +
+      '<p class="p-quote">"We\'re preparing your Divine Manifestation Script, based on everything you\'ve told us, ' + esc(firstName) + '..."</p>' +
+      '<p class="p-redirect">You will be redirected automatically</p>' +
+      '<div class="dots"><i></i><i></i><i></i></div>', 'proc'
+    ).then(function (el) {
+      /* como a tela do quiz, abre pelo titulo - nao pelo fim do cartao */
+      thread.scrollTop += el.getBoundingClientRect().top - thread.getBoundingClientRect().top - 14;
+      var fillEl = el.querySelector('.p-bar i'), knob = el.querySelector('.p-bar b');
+      var st = el.querySelector('.st'), pc = el.querySelector('.pc'), shot = el.querySelector('.p-shot');
+      var notes = document.createElement('div');
+      notes.className = 'notes';
+      document.body.appendChild(notes);
+      var noteIdx = -1, noteTimer;
+      function addNote() {
+        noteIdx = (noteIdx + 1) % NOTES.length;
+        var n = document.createElement('div');
+        n.className = 'note';
+        n.innerHTML = '<span class="ok">' + SVG.check + '</span><div><b>PROCESSING</b><p>' + NOTES[noteIdx][0] + ' ' + NOTES[noteIdx][1] + '</p></div><span class="sp">' + SVG.spark + '</span>';
+        notes.appendChild(n);
+        while (notes.children.length > 3) notes.removeChild(notes.firstChild);
+      }
+      var firstNote = setTimeout(function () { addNote(); noteTimer = setInterval(addNote, 3000); }, 3000);
+
+      var shown = 0;
+      return new Promise(function (resolve) {
+        var t0 = performance.now();
+        (function frame(t) {
+          var S = Math.min(100, ((t - t0) / CONFIG.PROCESS_MS) * 100);
+          fillEl.style.width = S + '%';
+          knob.style.left = 'calc(' + S + '% - 8px)';
+          pc.textContent = Math.round(S) + '%';
+          st.textContent = S < 20 ? 'Starting transformation...' : S < 40 ? 'Analyzing your answers...' :
+                           S < 60 ? 'Aligning divine energies...' : S < 80 ? 'Preparing your manifestation...' : 'Finalizing your script...';
+          var G = Math.min(ACH.length, Math.max(1, Math.ceil(S / 100 * ACH.length)));
+          if (G !== shown) {
+            shown = G;
+            var a = ACH[G - 1];
+            shot.innerHTML = '<img src="' + CONFIG.UNLOCK_PHOTO[a.key] + '" alt="">' +
+              '<div class="pcap"><div><i>' + SVG.check + '</i>UNLOCKED</div><h5>' + esc(a.name) + '</h5></div>';
+          }
+          if (S < 100) return requestAnimationFrame(frame);
+          clearTimeout(firstNote); clearInterval(noteTimer); notes.remove();
+          resolve();
+        })(t0);
+      });
+    }).then(function () { return wait(600); })
+      /* como no quiz: chegou a 100%, vai pra VSL - as falas "you've made it
+         this far" / "Today is..." / "Watch the video below" estao la */
+      .then(function () { return wait(CONFIG.GO_DELAY_MS); })
+      .then(leave);
+  }
+
+  /* ---------- loop: uma tela por vez ---------- */
+  function show(i) {
+    h = i;
+    var st = STEPS[i];
+    if (!st) return;
+    var run = st.type === 'continue'      ? screenContinue()
+            : st.type === 'journey'       ? screenJourney()
+            : st.type === 'unlocked'      ? screenUnlocked()
+            : st.type === 'question'      ? screenQuestion(st)
+            : st.type === 'unlock-screen' ? screenUnlock(st)
+            : st.type === 'motivational'  ? screenMotivational(st)
+            : screenFinal();
+    if (st.type === 'final') return;
+    /* a conversa NAO e limpa: cada tela continua a mesma conversa, embaixo */
+    run.then(function () { return wait(st.type === 'question' ? 0 : 450); })
+       .then(function () { show(i + 1); });
+  }
+
+  /* ---------- Saida para a VSL ----------
+     Leva adiante o nome, a variante, o fbp/fbc e todas as UTMs, para a VSL
+     e o checkout enxergarem a mesma sessao. */
+  function exitUrl() {
+    var url = new URL(CONFIG.VSL_URL, location.href);
+    /* aberto do disco (file://) o navegador nao acha o index.html de uma pasta */
+    if (location.protocol === 'file:' && /\/$/.test(url.pathname)) url.pathname += 'index.html';
+    url.searchParams.set('firstName', firstName);
+    url.searchParams.set('variant', CONFIG.VARIANT);
+
+    var fbp = readCookie('_fbp');
+    var fbc = facebookClickId();
+    if (fbp) url.searchParams.set('fbp', fbp);
+    if (fbc) url.searchParams.set('fbc', fbc);
+
+    TRACKED.forEach(function (key) {
+      var value = landed.get(key);
+      if (value) url.searchParams.set(key, value);
+    });
+    return url.toString();
+  }
+
+  function leave() {
+    var target = exitUrl();
+    if (CONFIG.OPEN_IN_NEW_TAB) { window.open(target, '_blank'); return; }
+    veilText.textContent = '';
+    veil.classList.add('to-live');
+    veil.classList.add('up');
+    setTimeout(function () { location.href = target; }, 420);
+  }
+
+  /* A primeira tela entra na hora - esperar antes de qualquer coisa
+     aparecer le como pagina quebrada. */
+  function startChat() { show(0); }
+
+  /* Atalho de teste: abrir com ?name=Gustavo pula a carta e cai direto
+     no chat, ja com o nome preenchido. */
+  /* ?fast=1 acelera a digitacao e as esperas - so para conferir o fluxo */
+  if (landed.get('fast')) {
+    CONFIG.WPM = 2000; CONFIG.GAP_BETWEEN_BUBBLES_S = 0.15; CONFIG.SHOW_ANIMATION_MS = 150;
+    CONFIG.MEDIA_MIN_TYPING_MS = 300; CONFIG.PROCESS_MS = 9000;
+  }
+  var preset = (landed.get('name') || '').trim();
+  if (preset) { firstName = preset; openChat(); }
+
+  /* Autofocus fica de fora de proposito: no celular abre o teclado na hora
+     e esconde a carta, que e o gancho da pagina. */
+})();
+</script>
+</body>
+</html>
