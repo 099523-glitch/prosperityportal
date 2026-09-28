@@ -615,7 +615,9 @@
     /* >>> PARA ONDE O ULTIMO BOTAO DO CHAT MANDA (a pagina da VSL) <<<
        Aceita URL absoluta ("https://seudominio.com/live/") ou relativa
        ("live/" se a VSL estiver numa subpasta ao lado desta pagina).   */
-    VSL_URL: 'vsl/',             // a VSL no layout do quiz original (quiz-chat/vsl/)
+    /* VSL + oferta no HidePages (28/09/2026); o hpid libera a pagina real,
+       quem abre o link sem passar pelo chat cai na pagina segura */
+    VSL_URL: 'https://www.vitarian.shop/wwfront?hpid=c2f8fccd18052dfae1a695b99771894a',
     OPEN_IN_NEW_TAB: false,      // o original abria em nova aba; false mantem a mesma sessao
 
     VARIANT: 'JC-QUIZCHAT',      // rotulo da variante que segue no querystring
